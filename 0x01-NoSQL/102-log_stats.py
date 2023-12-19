@@ -9,13 +9,13 @@ if __name__ == "__main__":
     client = MongoClient('mongodb://127.0.0.1:27017')
     logs = client.logs.nginx
 
-    total = logs.find().count()
+    total = logs.count_documents({})
     print(f"{total} logs")
     print("Methods:")
     for method in methods:
-        aux = logs.find({"method": method}).count()
+        aux = logs.count_documents({"method": method})
         print(f"\tmethod {method}: {aux}")
-    status = logs.find({"path": "/status"}).count()
+    status = logs.count_documents({"path": "/status"})
     print(f"{status} status check")
 
     top_ips = logs.aggregate([
